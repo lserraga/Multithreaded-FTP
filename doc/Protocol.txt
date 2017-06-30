@@ -1,0 +1,34 @@
+
+                Specification of the application-layer protocol:
+
+        Every time a client connects to the server there are 3 messages sent to the
+        server. The first one, with a length of 10 Bytes, will contain the offset of
+        the file with which the server should start sending. If this value is -1, the
+        server will know that what the client wants is only the length of the file.
+
+        The second message, also of 10 Bytes, contains the size of the file chunk that
+        the server has to provide. If the offset value was -1, the chunkSize parameter
+        doesn't matter. The third message, with a length of 256 Bytes, contains the
+        name of the file that the client is interested in.
+
+        If the offset parameter was -1, the server will respond with the file size if
+        it didn't have any problem opening the file (it exists and open doesn't give
+        problems). Otherwise it will send "Error opening the file" which will make the
+        client know that the server doesn't have the file. It will also send the new 
+        port number to which the user should senfd the ACK for the chunks.
+
+        If offset is not -1, the server will start sending the file chunk starting in
+        the offset and ending after sending the amount of bytes specified in the
+        chunkSize parameter. The server will bind a new port that will use to send the data
+        and it will send the port number to the client. I have set up the MTU to be 1500 
+        bytes, so the sever divides what it has to send in packets of 1500 bytes. 
+        1496 bytes of data and 4 bytes for the chunk number (each server can transfer
+        a theoretical maximum of almost 150MB, but this can be changed easily adding more
+        bytes to the chunk number)
+
+        For every packet the server waits for the ACK with the right chunk number,
+        and if it doesn't receive it within 5 seconds, sends the same packet again.
+
+
+
+        

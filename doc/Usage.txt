@@ -1,0 +1,14 @@
+
+                  How to use myserver and myclient
+
+    Execute ./myserver in the bin directory (where the test files are) once for
+    every server you want to make(each in different terminals), with the port
+    number associated to it. The ports in the server-info.txt file are 1234,
+    5678 and 2345.
+
+    Execute ./bin/myclient in the main directory (where the server-info.txt file
+    is located), including the name of the file for the addresses, the number of
+    connections and the file that you want to get retrieved. If there is at least
+    one server up with the file (from the server-info.txt) it will retrieve the
+    file, otherwise it will display why the file couldn't be retrieved. The new
+    copied files will be stored in the main directory.
